@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Industry Energy Usage Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>⚡ Energy Usage Prediction System</h1>
+                <p class="subtitle">Steel Industry Power Consumption Forecasting</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="upload">📁 Upload CSV</button>
+                <button class="tab-btn" data-tab="manual">✍️ Manual Input</button>
+            </div>
+
+            <!-- Upload Tab -->
+            <div class="tab-content active" id="upload-tab">
+                <div class="upload-section">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📤</div>
+                        <h3>Drag & Drop CSV File</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="file-input" accept=".csv" hidden>
+                        <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+                            Choose File
+                        </button>
+                    </div>
+
+                    <div class="file-info" id="file-info" style="display: none;">
+                        <div class="file-details">
+                            <span class="file-name" id="file-name"></span>
+                            <span class="file-size" id="file-size"></span>
+                        </div>
+                        <button class="btn btn-secondary" id="clear-file">Clear</button>
+                    </div>
+
+                    <div class="sample-files">
+                        <h4>📋 Or try sample files:</h4>
+                        <div class="sample-buttons">
+                            <button class="sample-btn" data-file="01_weekday_morning_light_load.csv">
+                                Weekday Morning - Light Load
+                            </button>
+                            <button class="sample-btn" data-file="02_weekday_afternoon_medium_load.csv">
+                                Weekday Afternoon - Medium Load
+                            </button>
+                            <button class="sample-btn" data-file="03_weekday_evening_maximum_load.csv">
+                                Weekday Evening - Maximum Load
+                            </button>
+                            <button class="sample-btn" data-file="04_weekend_saturday_light_load.csv">
+                                Weekend Saturday - Light Load
+                            </button>
+                            <button class="sample-btn" data-file="05_weekend_sunday_medium_load.csv">
+                                Weekend Sunday - Medium Load
+                            </button>
+                            <button class="sample-btn" data-file="06_single_prediction_example.csv">
+                                Single Prediction Example
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSV Preview -->
+                <div class="csv-preview" id="csv-preview" style="display: none;">
+                    <h3>📊 Data Preview</h3>
+                    <div class="table-container">
+                        <table id="preview-table">
+                            <thead id="preview-header"></thead>
+                            <tbody id="preview-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="preview-info">
+                        <span id="row-count"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Input Tab -->
+            <div class="tab-content" id="manual-tab">
+                <div class="form-section">
+                    <h3>📝 Enter Data Manually</h3>
+
+                    <form id="manual-form">
+                        <!-- Date/Time Input -->
+                        <div class="form-group">
+                            <label for="input-date">
+                                <span class="label-text">Date & Time</span>
+                                <span class="label-help">Format: DD/MM/YYYY HH:MM</span>
+                            </label>
+                            <div class="datetime-inputs">
+                                <input type="date" id="input-date" required>
+                                <input type="time" id="input-time" required>
+                            </div>
+                        </div>
+
+                        <!-- Power Metrics -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="lagging-power">
+                                    <span class="label-text">Lagging Reactive Power (kVarh)</span>
+                                    <span class="label-help">Range: 0 - 50</span>
+                                </label>
+                                <input type="number" id="lagging-power" step="0.01" min="0" max="100"
+                                       placeholder="e.g., 4.32" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="leading-power">
+                                    <span class="label-text">Leading Reactive Power (kVarh)</span>
+                                    <span class="label-help">Range: 0 - 25</span>
+                                </label>
+                                <input type="number" id="leading-power" step="0.01" min="0" max="100"
+                                       placeholder="e.g., 0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="lagging-pf">
+                                    <span class="label-text">Lagging Power Factor</span>
+                                    <span class="label-help">Range: 50 - 100</span>
+                                </label>
+                                <input type="number" id="lagging-pf" step="0.01" min="0" max="100"
+                                       placeholder="e.g., 65.85" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="leading-pf">
+                                    <span class="label-text">Leading Power Factor</span>
+                                    <span class="label-help">Range: 0 - 100</span>
+                                </label>
+                                <input type="number" id="leading-pf" step="0.01" min="0" max="100"
+                                       placeholder="e.g., 100" required>
+                            </div>
+                        </div>
+
+                        <!-- CO2 -->
+                        <div class="form-group">
+                            <label for="co2">
+                                <span class="label-text">CO2 Emissions (tCO2)</span>
+                                <span class="label-help">Range: 0 - 0.05</span>
+                            </label>
+                            <input type="number" id="co2" step="0.001" min="0" max="1"
+                                   placeholder="e.g., 0" required>
+                        </div>
+
+                        <!-- NSM (Auto-calculated) -->
+                        <div class="form-group">
+                            <label for="nsm">
+                                <span class="label-text">NSM (Seconds from Midnight)</span>
+                                <span class="label-help">Auto-calculated from time</span>
+                            </label>
+                            <input type="number" id="nsm" readonly
+                                   placeholder="Auto-calculated">
+                        </div>
+
+                        <!-- Categorical Inputs -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="week-status">
+                                    <span class="label-text">Week Status</span>
+                                </label>
+                                <select id="week-status" required>
+                                    <option value="">Select...</option>
+                                    <option value="Weekday">Weekday</option>
+                                    <option value="Weekend">Weekend</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="day-of-week">
+                                    <span class="label-text">Day of Week</span>
+                                </label>
+                                <select id="day-of-week" required>
+                                    <option value="">Select...</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="load-type">
+                                <span class="label-text">Load Type</span>
+                            </label>
+                            <select id="load-type" required>
+                                <option value="">Select...</option>
+                                <option value="Light_Load">Light Load</option>
+                                <option value="Medium_Load">Medium Load</option>
+                                <option value="Maximum_Load">Maximum Load</option>
+                            </select>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="reset-form">Reset</button>
+                            <button type="button" class="btn btn-secondary" id="fill-sample">Fill Sample Data</button>
+                            <button type="submit" class="btn btn-primary">Add to Predictions</button>
+                        </div>
+                    </form>
+
+                    <!-- Manual Input Preview Table -->
+                    <div class="manual-preview" id="manual-preview" style="display: none;">
+                        <h4>📋 Input Preview</h4>
+                        <div class="table-container">
+                            <table id="manual-table">
+                                <thead id="manual-header"></thead>
+                                <tbody id="manual-body"></tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-danger" id="clear-manual">Clear All</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Predict Button Section -->
+            <div class="predict-section">
+                <button class="btn btn-success btn-large" id="predict-btn" disabled>
+                    🔮 Predict Energy Usage
+                </button>
+                <p class="predict-info">Upload CSV or add manual inputs to enable prediction</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="results-section" style="display: none;">
+                <h3>📈 Prediction Results</h3>
+
+                <div class="results-stats">
+                    <div class="stat-card">
+                        <span class="stat-label">Total Predictions</span>
+                        <span class="stat-value" id="total-predictions">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Average Usage</span>
+                        <span class="stat-value" id="avg-usage">0 kWh</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Min Usage</span>
+                        <span class="stat-value" id="min-usage">0 kWh</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Max Usage</span>
+                        <span class="stat-value" id="max-usage">0 kWh</span>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="results-table">
+                        <thead id="results-header"></thead>
+                        <tbody id="results-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="download-section">
+                    <button class="btn btn-primary" id="download-csv">
+                        💾 Download Results as CSV
+                    </button>
+                    <button class="btn btn-secondary" id="download-json">
+                        📄 Download Results as JSON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section" id="charts-section">
+                <h2>📊 Data Analysis & Visualizations</h2>
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Predicted Usage Distribution</h3>
+                        <canvas id="usage-chart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Load Type Analysis</h3>
+                        <canvas id="load-type-chart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Power Factor Comparison</h3>
+                        <canvas id="power-factor-chart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Time of Day Distribution</h3>
+                        <canvas id="time-chart" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Machine Learning | 79 Features | 9 Models Benchmarked</p>
+            <p class="footer-note">Using XGBoost/LightGBM optimized model</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing predictions...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

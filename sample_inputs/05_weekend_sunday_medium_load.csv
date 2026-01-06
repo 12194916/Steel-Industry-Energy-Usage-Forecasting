@@ -1,0 +1,11 @@
+date,Lagging_Current_Reactive.Power_kVarh,Leading_Current_Reactive_Power_kVarh,CO2(tCO2),Lagging_Current_Power_Factor,Leading_Current_Power_Factor,NSM,WeekStatus,Day_of_week,Load_Type
+22/12/2024 14:00,12.5,4.2,0.01,55.3,90.5,50400,Weekend,Sunday,Medium_Load
+22/12/2024 14:15,13.8,4.8,0.01,53.7,88.9,51300,Weekend,Sunday,Medium_Load
+22/12/2024 14:30,11.9,3.9,0.01,56.8,91.8,52200,Weekend,Sunday,Medium_Load
+22/12/2024 14:45,14.2,5.1,0.01,52.9,87.5,53100,Weekend,Sunday,Medium_Load
+22/12/2024 15:00,12.1,4.1,0.01,55.9,90.9,54000,Weekend,Sunday,Medium_Load
+22/12/2024 15:15,13.5,4.7,0.01,54.2,89.3,54900,Weekend,Sunday,Medium_Load
+22/12/2024 15:30,11.7,3.8,0.01,57.2,92.2,55800,Weekend,Sunday,Medium_Load
+22/12/2024 15:45,14.5,5.3,0.01,52.1,86.8,56700,Weekend,Sunday,Medium_Load
+22/12/2024 16:00,12.8,4.4,0.01,55.1,90.1,57600,Weekend,Sunday,Medium_Load
+22/12/2024 16:15,13.2,4.6,0.01,54.5,89.5,58500,Weekend,Sunday,Medium_Load

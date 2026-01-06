@@ -76,9 +76,22 @@ class EnergyUsagePredictor:
         # Make a copy
         df_processed = df.copy()
 
+        # Convert numeric columns to proper types (fix for CSV string values)
+        numeric_cols = [
+            'Lagging_Current_Reactive.Power_kVarh',
+            'Leading_Current_Reactive_Power_kVarh',
+            'CO2(tCO2)',
+            'Lagging_Current_Power_Factor',
+            'Leading_Current_Power_Factor',
+            'NSM'
+        ]
+        for col in numeric_cols:
+            if col in df_processed.columns:
+                df_processed[col] = pd.to_numeric(df_processed[col], errors='coerce')
+
         # Convert date to datetime if present
         if 'date' in df_processed.columns:
-            df_processed['date'] = pd.to_datetime(df_processed['date'])
+            df_processed['date'] = pd.to_datetime(df_processed['date'], format='%d/%m/%Y %H:%M', dayfirst=True)
 
             # Extract temporal features
             df_processed['hour'] = df_processed['date'].dt.hour
@@ -127,27 +140,6 @@ class EnergyUsagePredictor:
             df_processed['month_cos'] = np.cos(2 * np.pi * df_processed['month'] / 12)
             df_processed['dayofyear_sin'] = np.sin(2 * np.pi * df_processed['dayofyear'] / 365)
             df_processed['dayofyear_cos'] = np.cos(2 * np.pi * df_processed['dayofyear'] / 365)
-
-        # Create lag features if we have enough historical data
-        if len(df_processed) > 96:  # Need at least 24 hours of data
-            lag_periods = [1, 2, 3, 4, 8, 12, 24, 96]
-
-            if 'Usage_kWh' in df_processed.columns:
-                for lag in lag_periods:
-                    df_processed[f'usage_lag_{lag}'] = df_processed['Usage_kWh'].shift(lag)
-
-            if 'Lagging_Current_Reactive.Power_kVarh' in df_processed.columns:
-                for lag in lag_periods:
-                    df_processed[f'lagging_power_lag_{lag}'] = df_processed['Lagging_Current_Reactive.Power_kVarh'].shift(lag)
-
-            # Rolling features
-            windows = [4, 8, 12, 24]
-            if 'Usage_kWh' in df_processed.columns:
-                for window in windows:
-                    df_processed[f'usage_rolling_mean_{window}'] = df_processed['Usage_kWh'].rolling(window=window, min_periods=1).mean()
-                    df_processed[f'usage_rolling_std_{window}'] = df_processed['Usage_kWh'].rolling(window=window, min_periods=1).std()
-                    df_processed[f'usage_rolling_min_{window}'] = df_processed['Usage_kWh'].rolling(window=window, min_periods=1).min()
-                    df_processed[f'usage_rolling_max_{window}'] = df_processed['Usage_kWh'].rolling(window=window, min_periods=1).max()
 
         # Create interaction features
         if 'Lagging_Current_Reactive.Power_kVarh' in df_processed.columns and 'Leading_Current_Reactive_Power_kVarh' in df_processed.columns:

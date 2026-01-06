@@ -1,0 +1,2 @@
+date,Lagging_Current_Reactive.Power_kVarh,Leading_Current_Reactive_Power_kVarh,CO2(tCO2),Lagging_Current_Power_Factor,Leading_Current_Power_Factor,NSM,WeekStatus,Day_of_week,Load_Type
+25/12/2024 09:30,5.5,1.2,0,63.5,98.5,34200,Weekday,Wednesday,Light_Load

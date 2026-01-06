@@ -56,8 +56,17 @@ ML-Predictive-model/
 │   ├── steel_data_cleaned.csv           # Preprocessed data
 │   ├── steel_data_featured.csv          # Engineered features
 │   └── feature_names.txt                # List of all features
+├── sample_inputs/                       # Sample CSV files for testing
+│   ├── 01_weekday_morning_light_load.csv
+│   ├── 02_weekday_afternoon_medium_load.csv
+│   ├── 03_weekday_evening_maximum_load.csv
+│   ├── 04_weekend_saturday_light_load.csv
+│   ├── 05_weekend_sunday_medium_load.csv
+│   ├── 06_single_prediction_example.csv
+│   └── README.md                        # Sample files documentation
 ├── scripts/
 │   └── predict.py                       # Production prediction script
+├── .gitignore                           # Git ignore file (excludes .pkl)
 ├── requirements.txt                     # Python dependencies
 └── README.md                            # This file
 ```

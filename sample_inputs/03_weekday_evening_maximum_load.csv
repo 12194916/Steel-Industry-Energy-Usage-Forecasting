@@ -1,0 +1,11 @@
+date,Lagging_Current_Reactive.Power_kVarh,Leading_Current_Reactive_Power_kVarh,CO2(tCO2),Lagging_Current_Power_Factor,Leading_Current_Power_Factor,NSM,WeekStatus,Day_of_week,Load_Type
+20/09/2024 18:00,35.5,8.2,0.02,72.3,88.5,64800,Weekday,Thursday,Maximum_Load
+20/09/2024 18:15,38.2,9.5,0.02,70.1,86.2,65700,Weekday,Thursday,Maximum_Load
+20/09/2024 18:30,42.1,11.3,0.02,68.5,84.1,66600,Weekday,Thursday,Maximum_Load
+20/09/2024 18:45,39.8,10.1,0.02,69.7,85.8,67500,Weekday,Thursday,Maximum_Load
+20/09/2024 19:00,41.5,10.8,0.02,68.9,84.9,68400,Weekday,Thursday,Maximum_Load
+20/09/2024 19:15,37.3,9.2,0.02,71.2,87.3,69300,Weekday,Thursday,Maximum_Load
+20/09/2024 19:30,40.2,10.5,0.02,69.5,85.5,70200,Weekday,Thursday,Maximum_Load
+20/09/2024 19:45,43.8,12.1,0.03,67.8,83.2,71100,Weekday,Thursday,Maximum_Load
+20/09/2024 20:00,39.1,9.8,0.02,70.5,86.8,72000,Weekday,Thursday,Maximum_Load
+20/09/2024 20:15,41.9,11.2,0.02,68.7,84.5,72900,Weekday,Thursday,Maximum_Load
